@@ -6,7 +6,7 @@ const Plugin = {};
 Plugin.install = (Vue, options) => {
   const defaultOptions = {
     instance: {
-      baseURL: "http://localhost:3000",
+      baseURL: process.env.VUE_APP_API_BASE_URI,
       timeout: 1000 * 10
     },
     interceptor: {
