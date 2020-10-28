@@ -1,6 +1,8 @@
 import Vue from "vue";
 import axios from "axios";
 
+const Plugin = {};
+
 Plugin.install = (Vue, options) => {
   const defaultOptions = {
     instance: {
