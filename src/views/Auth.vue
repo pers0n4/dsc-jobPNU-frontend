@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="ma-0 pa-0">
     <v-row justify="center">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <component :is="component"></component>
