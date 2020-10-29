@@ -4,7 +4,7 @@
       Sign up
     </v-card-title>
     <v-card-text>
-      <v-form>
+      <v-form v-model="isValid">
         <v-text-field
           v-model="email"
           label="Email"
@@ -23,12 +23,15 @@
           label="Confirm Password"
           prepend-icon="mdi-lock"
           type="password"
+          :rules="[() => password === passwordConfirm]"
         ></v-text-field>
       </v-form>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text color="primary">Submit</v-btn>
+      <v-btn text color="primary" :disabled="!isValid" @click="signUp"
+        >Submit</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -37,10 +40,24 @@
 export default {
   name: "SignUp",
   data: () => ({
+    isValid: true,
     email: "",
     password: "",
     passwordConfirm: "",
     isPasswordHide: true
-  })
+  }),
+  methods: {
+    signUp() {
+      if (!this.isValid) return;
+      this.$axios
+        .post("/users", {
+          email: this.email,
+          password: this.password
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
+        });
+    }
+  }
 };
 </script>
