@@ -11,6 +11,11 @@
           prepend-icon="mdi-email"
         ></v-text-field>
         <v-text-field
+          v-model="name"
+          label="Name"
+          prepend-icon="mdi-account-circle"
+        ></v-text-field>
+        <v-text-field
           v-model="password"
           label="Password"
           prepend-icon="mdi-lock"
@@ -42,6 +47,7 @@ export default {
   data: () => ({
     isValid: true,
     email: "",
+    name: "",
     password: "",
     passwordConfirm: "",
     isPasswordHide: true
@@ -52,6 +58,7 @@ export default {
       this.$axios
         .post("/users", {
           email: this.email,
+          name: this.name,
           password: this.password
         })
         .then(() => {
