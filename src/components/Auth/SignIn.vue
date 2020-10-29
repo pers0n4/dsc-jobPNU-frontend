@@ -22,7 +22,10 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text color="primary">Submit</v-btn>
+      <v-btn text color="primary" @click="signIn">Submit</v-btn>
+      <v-snackbar v-model="snackbar" :color="result">
+        {{ message }}
+      </v-snackbar>
     </v-card-actions>
   </v-card>
 </template>
@@ -33,7 +36,26 @@ export default {
   data: () => ({
     email: "",
     password: "",
-    isPasswordHide: true
-  })
+    isPasswordHide: true,
+    snackbar: false,
+    result: "",
+    message: ""
+  }),
+  methods: {
+    signIn() {
+      this.$axios
+        .post("/auth", { email: this.email, password: this.password })
+        .then(result => {
+          this.message = result.data;
+          this.result = "success";
+          this.snackbar = true;
+        })
+        .catch(error => {
+          this.message = error.response.data;
+          this.result = "error";
+          this.snackbar = true;
+        });
+    }
+  }
 };
 </script>
