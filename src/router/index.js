@@ -1,6 +1,9 @@
 import Home from "../views/Home.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Read from "@/components/Read";
+import Create from "@/components/Create";
+import Detail from "@/components/Detail";
 
 Vue.use(VueRouter);
 
@@ -20,6 +23,21 @@ const routes = [
     path: "/mypage",
     name: "Mypage",
     component: () => import("../views/MyPage.vue")
+  },
+  {
+    path: "/",
+    name: "Read",
+    component: Read
+  },
+  {
+    path: "/create/:contentId?",
+    name: "Create",
+    component: Create
+  },
+  {
+    path: "/detail/:contentId",
+    name: "Detail",
+    component: Detail
   }
 ];
 
@@ -28,5 +46,3 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
-export default router;
