@@ -1,7 +1,7 @@
 import Home from "../views/Home.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Read from "@/components/Read";
+import Board from "@/components/Board";
 import Create from "@/components/Create";
 import Detail from "@/components/Detail";
 
@@ -23,6 +23,11 @@ const routes = [
     path: "/mypage",
     name: "Mypage",
     component: () => import("../views/MyPage.vue")
+  },
+  {
+    path: "/",
+    name: "Board",
+    component: Board
   },
   {
     path: "/",
