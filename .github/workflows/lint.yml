@@ -11,7 +11,7 @@ on:
 jobs:
   lint:
     name: Lint
-
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
       matrix:
