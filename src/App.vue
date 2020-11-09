@@ -9,25 +9,12 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item to="signin">
-            <v-list-item-title>Sign in</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="signup">
-            <v-list-item-title>Sign up</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="mypage">
-            <v-list-item-title>My Page</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn v-show="!this.$store.state.sign" text color="white" to="signin"
+        >Sign in</v-btn
+      >
+      <v-btn v-show="this.$store.state.sign" text color="white" @click="logOut"
+        >Log out</v-btn
+      >
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute bottom temporary>
@@ -39,27 +26,23 @@
             ></v-img>
           </v-list-item-avatar>
         </v-list-item>
+        <v-list-item class="px-2 justify-center">
+          {{ this.$store.state.name }}
+        </v-list-item>
       </v-list>
+
       <v-divider></v-divider>
       <v-list>
         <v-list-item-group
           v-model="group"
-          active-class="deep-purple--text text--accent-4"
+          active-class="blue--text text--accent-4"
         >
-          <v-list-item to="/signin">
-            <v-list-item-title>Foo</v-list-item-title>
+          <v-list-item :to="this.$store.state.sign ? '/mypage' : '/signin'">
+            <v-list-item-title>My Page</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/mypage">
-            <v-list-item-title>Bar</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
+          <v-list-item to="/board">
+            <v-list-item-title>Board</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -74,6 +57,8 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "App",
   data: () => ({
@@ -84,6 +69,23 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    }
+  },
+  created() {
+    if (sessionStorage.token) {
+      this.$store.commit(
+        "LOAD_TOKEN",
+        VueJwtDecode.decode(sessionStorage.token)
+      );
+      console.log(sessionStorage.token);
+    } else {
+      this.$store.commit("CLEAR_INFO");
+      console.log("clear");
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.commit("CLEAR_INFO");
     }
   }
 };

@@ -13,9 +13,11 @@
           <v-list-item-icon>
             <v-icon> mdi-account </v-icon>
           </v-list-item-icon>
-          <v-list-item-content>
+          <v-list-item-content readonly>
             <v-list-item-title> Name </v-list-item-title>
-            <v-list-item-subtitle> {{ myname }} </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{ this.$store.state.name }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -24,23 +26,23 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title> E-mail </v-list-item-title>
-            <v-list-item-subtitle> {{ email }} </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{ this.$store.state.email }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
 
-      <v-card-text>
-        <div class="text-center mt-12">
-          <v-rating
-            v-model="rating"
-            readonly="true"
-            color="yellow darken-3"
-            background-color="grey darken-1"
-            half-increments
-            large
-          ></v-rating>
-        </div>
-      </v-card-text>
+      <div class="text-center mt-12">
+        <v-rating
+          v-model="rating"
+          readonly
+          color="yellow darken-3"
+          background-color="grey darken-1"
+          half-increments
+          large
+        ></v-rating>
+      </div>
 
       <v-card-actions>
         <v-spacer />
