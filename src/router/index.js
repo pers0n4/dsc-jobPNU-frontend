@@ -15,6 +15,11 @@ const routes = [
     alias: "/signup",
     name: "Auth",
     component: () => import(/* webpackChunkName: "auth" */ "../views/Auth.vue")
+  },
+  {
+    path: "/mypage",
+    name: "Mypage",
+    component: () => import("../views/MyPage.vue")
   }
 ];
 

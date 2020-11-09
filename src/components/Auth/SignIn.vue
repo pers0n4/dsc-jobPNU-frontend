@@ -21,6 +21,7 @@
       </v-form>
     </v-card-text>
     <v-card-actions>
+      <v-btn text @click="getData">Get</v-btn>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="signIn">Submit</v-btn>
       <v-snackbar v-model="snackbar" :color="result">
@@ -31,6 +32,8 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "SignIn",
   data: () => ({
@@ -39,20 +42,44 @@ export default {
     isPasswordHide: true,
     snackbar: false,
     result: "",
-    message: ""
+    message: "",
+    token: "",
+    id: "",
+    decoded: ""
   }),
   methods: {
     signIn() {
       this.$axios
-        .post("/auth", { email: this.email, password: this.password })
+        .post("https://pers0n4.dev:3000/auth", {
+          email: this.email,
+          password: this.password
+        })
         .then(result => {
-          this.message = result.data;
+          this.message = result.data.token;
           this.result = "success";
           this.snackbar = true;
+          this.token = result.data.token;
+
+          sessionStorage.token = this.token;
+
+          this.decoded = VueJwtDecode.decode(this.token);
+          this.id = this.decoded.id;
+          console.log(this.id);
+          this.$axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${this.token}`;
         })
         .catch(error => {
           this.message = error.response.data;
           this.result = "error";
+          this.snackbar = true;
+        });
+    },
+    getData() {
+      this.$axios
+        .get("https://pers0n4.dev:3000/users/" + this.id)
+        .then(result => {
+          this.message = result.data;
           this.snackbar = true;
         });
     }
