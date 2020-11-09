@@ -25,11 +25,6 @@ export default {
   components: {
     vdatepicker
   },
-  mounted() {
-    window.kakao && window.kakao.maps
-      ? this.initMap()
-      : this.addKakaoMapScript();
-  },
   data() {
     const index = this.$route.params.contentId;
     // const index = data.findIndex(data => {
@@ -43,6 +38,11 @@ export default {
       title: index !== undefined ? data[index].title : "",
       content: index !== undefined ? data[index].content : ""
     };
+  },
+  mounted() {
+    window.kakao && window.kakao.maps
+      ? this.initMap()
+      : this.addKakaoMapScript();
   },
   methods: {
     addKakaoMapScript() {

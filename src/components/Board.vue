@@ -33,6 +33,9 @@ export default {
       data: data
     };
   },
+  mounted() {
+    this.$axios.get("/users").then(data => console.log(data));
+  },
   methods: {
     write() {
       this.$router.push({
@@ -52,9 +55,6 @@ export default {
         }
       });
     }
-  },
-  mounted() {
-    this.$axios.get("/users").then(data => console.log(data));
   }
 };
 </script>
