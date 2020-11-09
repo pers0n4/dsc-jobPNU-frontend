@@ -2,6 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>My page</v-card-title>
+
       <v-list two-line>
         <v-list-item class="px-2 justify-center">
           <v-list-item-avatar size="200">
@@ -27,6 +28,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
       <v-card-text>
         <div class="text-center mt-12">
           <v-rating
@@ -39,6 +41,7 @@
           ></v-rating>
         </div>
       </v-card-text>
+
       <v-card-actions>
         <v-spacer />
         <v-btn>OK</v-btn>
