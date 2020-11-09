@@ -1,42 +1,51 @@
 <template>
   <v-card>
-    <v-card-title>
-      Sign up
-    </v-card-title>
+    <v-card-title>SignUp</v-card-title>
     <v-card-text>
       <v-form v-model="isValid">
         <v-text-field
           v-model="email"
-          label="Email"
+          label="E-mail (example@pusan.ac.kr)"
           prepend-icon="mdi-email"
-        ></v-text-field>
+          :rules="[emailExp.test(email) ? true : '잘못된 양식입니다.']"
+        >
+        </v-text-field>
         <v-text-field
           v-model="name"
           label="Name"
           prepend-icon="mdi-account-circle"
-        ></v-text-field>
+          :rules="[nameExp.test(name) ? true : '잘못된 양식입니다.']"
+        >
+        </v-text-field>
         <v-text-field
           v-model="password"
-          label="Password"
-          prepend-icon="mdi-lock"
-          :append-icon="isPasswordHide ? 'mdi-eye-off' : 'mdi-eye'"
+          label="Password(8자리 이상)"
           :type="isPasswordHide ? 'password' : 'text'"
+          prepend-icon="mdi-lock-outline"
+          :append-icon="isPasswordHide ? 'mdi-eye-off' : 'mdi-eye'"
+          :rules="[passwordExp.test(password) ? true : '잘못된 양식입니다.']"
           @click:append="isPasswordHide = !isPasswordHide"
-        ></v-text-field>
+        >
+        </v-text-field>
         <v-text-field
           v-model="passwordConfirm"
-          label="Confirm Password"
-          prepend-icon="mdi-lock"
+          label="Confirm"
           type="password"
-          :rules="[() => password === passwordConfirm]"
-        ></v-text-field>
+          prepend-icon="mdi-lock"
+          :rules="[
+            password === passwordConfirm
+              ? true
+              : '비밀번호가 일치하지 않습니다.'
+          ]"
+        >
+        </v-text-field>
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text color="primary" :disabled="!isValid" @click="signUp"
-        >Submit</v-btn
-      >
+      <v-spacer />
+      <v-btn :disabled="!isValid" @click="temp">
+        Submit
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -45,25 +54,19 @@
 export default {
   name: "SignUp",
   data: () => ({
-    isValid: true,
-    email: "",
     name: "",
+    email: "",
     password: "",
     passwordConfirm: "",
-    isPasswordHide: true
+    isValid: true,
+    isPasswordHide: true,
+    emailExp: /[a-zA-Z0-9]@pusan.ac.kr/,
+    nameExp: /[a-zA-z가-힣]{2,}/,
+    passwordExp: /[a-zA-Z0-9]{8,}/
   }),
   methods: {
-    signUp() {
-      if (!this.isValid) return;
-      this.$axios
-        .post("/users", {
-          email: this.email,
-          name: this.name,
-          password: this.password
-        })
-        .then(() => {
-          this.$router.push({ name: "Home" });
-        });
+    temp: () => {
+      alert("axios 추가해야함");
     }
   }
 };
