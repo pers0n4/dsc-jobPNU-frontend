@@ -3,7 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Board from "@/components/Board";
 import Create from "@/components/Create";
-import Detail from "@/components/Detail";
+// import Detail from "@/components/Detail";
 
 Vue.use(VueRouter);
 
@@ -42,7 +42,7 @@ const routes = [
   {
     path: "/detail/:contentId",
     name: "Detail",
-    component: Detail
+    component: () => import("@/components/Detail")
   }
 ];
 

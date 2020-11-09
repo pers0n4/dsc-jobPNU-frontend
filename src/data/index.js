@@ -1,20 +1,32 @@
 export default [
   {
     id: 0,
-    writer: "김지원",
-    title: "첫 글",
+    user: "김지원0",
+    title: "0",
     content: "안녕하세요"
   },
   {
     id: 1,
-    writer: "임채광",
-    title: "두 번째 글",
+    user: "김지원1",
+    title: "1",
     content: "Hello"
   },
   {
     id: 2,
-    writer: "죠르디",
-    title: "니니즈",
+    user: "김지원2",
+    title: "2",
     content: "니니닌니니니니니"
+  },
+  {
+    id: 3,
+    user: "김지원3",
+    title: "3",
+    content: "니33니닌니니니니니"
+  },
+  {
+    id: 4,
+    user: "김지원4",
+    title: "4",
+    content: "니니닌니444니니니니"
   }
 ];
