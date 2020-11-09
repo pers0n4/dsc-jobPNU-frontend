@@ -43,7 +43,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn :disabled="!isValid" @click="temp">
+      <v-btn :disabled="!isValid" @click="singUp">
         Submit
       </v-btn>
     </v-card-actions>
@@ -65,8 +65,16 @@ export default {
     passwordExp: /[a-zA-Z0-9]{8,}/
   }),
   methods: {
-    temp: () => {
-      alert("axios 추가해야함");
+    singUp() {
+      this.$axios
+        .post("https://pers0n4.dev:3000/users", {
+          email: this.email,
+          name: this.name,
+          password: this.password
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
+        });
     }
   }
 };
