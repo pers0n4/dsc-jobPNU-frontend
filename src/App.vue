@@ -10,24 +10,12 @@
         </v-btn>
       </router-link>
 
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item to="signin">
-            <v-list-item-title>Sign in</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="signup">
-            <v-list-item-title>Sign up</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="mypage">
-            <v-list-item-title>My Page</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
+        >SIGN IN</v-btn
+      >
+      <v-btn v-if="this.$store.state.login" text color="white" @click="logOut"
+        >LOG OUT</v-btn
+      >
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute bottom temporary>
@@ -44,22 +32,18 @@
       <v-list>
         <v-list-item-group
           v-model="group"
-          active-class="deep-purple--text text--accent-4"
+          active-class="blue--text text--accent-4"
         >
-          <v-list-item to="/signin">
-            <v-list-item-title>Foo</v-list-item-title>
+          <v-list-item :to="this.$store.state.login ? '/mypage' : '/signin'">
+            <v-list-item-title>My Page</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/mypage">
-            <v-list-item-title>Bar</v-list-item-title>
+          <v-list-item to="/board">
+            <v-list-item-title>Board</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
+          <v-list-item to="/status">
+            <v-list-item-title>Stauts</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -74,6 +58,8 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "App",
   data: () => ({
@@ -84,6 +70,25 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    }
+  },
+  created() {
+    if (sessionStorage.token === undefined) {
+      this.$store.commit("DEL_TOKEN");
+    } else {
+      this.$store.commit(
+        "GET_TOKEN",
+        VueJwtDecode.decode(sessionStorage.token)
+      );
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.commit("DEL_TOKEN");
+      sessionStorage.clear();
+      if (this.$router.currentRoute.name != "Home") {
+        this.$router.push({ name: "Home" });
+      }
     }
   }
 };

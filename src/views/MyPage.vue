@@ -15,7 +15,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title> Name </v-list-item-title>
-            <v-list-item-subtitle> {{ myname }} </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{ this.$store.state.name }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -24,7 +26,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title> E-mail </v-list-item-title>
-            <v-list-item-subtitle> {{ email }} </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{ this.$store.state.email }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -33,7 +37,7 @@
         <div class="text-center mt-12">
           <v-rating
             v-model="rating"
-            readonly="true"
+            readonly
             color="yellow darken-3"
             background-color="grey darken-1"
             half-increments
@@ -43,6 +47,7 @@
       </v-card-text>
 
       <v-card-actions>
+        <v-btn @click="signOut">Sing Out</v-btn>
         <v-spacer />
         <v-btn>OK</v-btn>
       </v-card-actions>
@@ -58,7 +63,18 @@ export default {
     email: "example@pusan.ac.kr",
     rating: 4.5,
     imgsrc: "https://randomuser.me/api/portraits/women/85.jpg"
-  })
+  }),
+  methods: {
+    signOut() {
+      this.$axios
+        .delete("https://pers0n4.dev:3000/users/" + this.$store.state.id)
+        .then(() => {
+          this.$store.commit("DEL_TOKEN");
+          sessionStorage.clear();
+          this.$router.push({ name: "Home" });
+        });
+    }
+  }
 };
 </script>
 
