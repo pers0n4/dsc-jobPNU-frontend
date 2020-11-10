@@ -44,6 +44,9 @@
           <v-list-item to="/board">
             <v-list-item-title>Board</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/status">
+            <v-list-item-title>Status</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
