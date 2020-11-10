@@ -39,7 +39,6 @@
         >
           <v-list-item :to="this.$store.state.sign ? '/mypage' : '/signin'">
             <v-list-item-title>My Page</v-list-item-title>
-<<<<<<< HEAD
           </v-list-item>
 
           <v-list-item to="/board">
@@ -47,12 +46,6 @@
           </v-list-item>
           <v-list-item to="/status">
             <v-list-item-title>Status</v-list-item-title>
-=======
-          </v-list-item>
-
-          <v-list-item to="/board">
-            <v-list-item-title>Board</v-list-item-title>
->>>>>>> 0dc85eb... add login
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -96,10 +89,7 @@ export default {
   methods: {
     logOut() {
       this.$store.commit("CLEAR_INFO");
-<<<<<<< HEAD
       sessionStorage.token = null;
-=======
->>>>>>> 0dc85eb... add login
     }
   }
 };
