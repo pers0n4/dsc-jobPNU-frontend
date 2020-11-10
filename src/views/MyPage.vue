@@ -45,6 +45,7 @@
       </div>
 
       <v-card-actions>
+        <v-btn @click="signOut">Sign Out</v-btn>
         <v-spacer />
         <v-btn>OK</v-btn>
       </v-card-actions>
@@ -60,7 +61,18 @@ export default {
     email: "example@pusan.ac.kr",
     rating: 4.5,
     imgsrc: "https://randomuser.me/api/portraits/women/85.jpg"
-  })
+  }),
+  methods: {
+    signOut() {
+      this.$axios
+        .delete("https://pers0n4.dev:3000/users/" + this.$store.state.id)
+        .then(() => {
+          this.$store.commit("CLEAR_INFO");
+          sessionStorage.token = null;
+          this.$router.push({ name: "Home" });
+        });
+    }
+  }
 };
 </script>
 
