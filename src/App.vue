@@ -86,6 +86,7 @@ export default {
   methods: {
     logOut() {
       this.$store.commit("CLEAR_INFO");
+      sessionStorage.token = null;
     }
   }
 };
