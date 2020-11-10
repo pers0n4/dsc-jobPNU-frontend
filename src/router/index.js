@@ -25,7 +25,7 @@ const routes = [
     component: () => import("../views/MyPage.vue")
   },
   {
-    path: "/",
+    path: "/board",
     name: "Board",
     component: Board
   },
