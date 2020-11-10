@@ -36,6 +36,7 @@
         >
           <v-list-item :to="this.$store.state.login ? '/mypage' : '/signin'">
             <v-list-item-title>My Page</v-list-item-title>
+<<<<<<< HEAD
           </v-list-item>
           <v-list-item to="/status">
             <v-list-item-title>Stauts</v-list-item-title>
@@ -47,6 +48,16 @@
 
           <v-list-item to="/board">
             <v-list-item-title>Search Study</v-list-item-title>
+=======
+          </v-list-item>
+
+          <v-list-item to="/board">
+            <v-list-item-title>Board</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/status">
+            <v-list-item-title>Stauts</v-list-item-title>
+>>>>>>> de74fcc... add login
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -85,6 +96,7 @@ export default {
       );
     }
   },
+<<<<<<< HEAD
   mounted() {
     if (!(window.kakao && window.kakao.maps)) {
       const script = document.createElement("script");
@@ -95,6 +107,8 @@ export default {
       document.head.appendChild(script);
     }
   },
+=======
+>>>>>>> de74fcc... add login
   methods: {
     logOut() {
       this.$store.commit("DEL_TOKEN");
