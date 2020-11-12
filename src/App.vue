@@ -45,6 +45,12 @@
           <v-list-item to="/status">
             <v-list-item-title>Stauts</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/create">
+            <v-list-item-title>Make Study</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/board">
+            <v-list-item-title>Search Study</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
