@@ -61,6 +61,12 @@
           <v-list-item>
             <v-list-item-title>Buzz</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/create">
+            <v-list-item-title>Make Study</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/board">
+            <v-list-item-title>Search Study</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -78,13 +84,13 @@ export default {
   name: "App",
   data: () => ({
     drawer: false,
-    group: null,
+    group: null
   }),
 
   watch: {
     group() {
       this.drawer = false;
-    },
-  },
+    }
+  }
 };
 </script>
