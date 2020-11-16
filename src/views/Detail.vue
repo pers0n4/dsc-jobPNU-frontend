@@ -2,22 +2,11 @@
   <v-card>
     <v-card-text>
       <v-form>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="data.title"
-              label="Title"
-              readonly
-            ></v-text-field>
-          </v-col>
-          <v-col cols="3">
-            <v-text-field
-              v-model="data.user"
-              label="Name"
-              readonly
-            ></v-text-field>
-          </v-col>
-        </v-row>
+        <v-text-field
+          v-model="data.title"
+          label="Title"
+          readonly
+        ></v-text-field>
         <v-row>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
@@ -37,7 +26,7 @@
           </v-col>
         </v-row>
         <v-row class="pt-3">
-          <v-col cols="6" sm="3" md="2">
+          <v-col cols="12" sm="6" md="4">
             <v-text-field
               v-model="data.start_date"
               label="Start Date"
@@ -45,7 +34,7 @@
               readonly
             ></v-text-field>
           </v-col>
-          <v-col cols="6" sm="3" md="2">
+          <v-col cols="12" sm="6" md="4">
             <v-text-field
               v-model="data.end_date"
               label="End Date"
@@ -53,23 +42,8 @@
               readonly
             ></v-text-field>
           </v-col>
-          <v-col cols="6" sm="3" md="2">
-            <v-text-field
-              v-model="data.start_time"
-              label="Start Time"
-              prepend-icon="mdi-clock-time-four-outline"
-              readonly
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6" sm="3" md="2">
-            <v-text-field
-              v-model="data.end_time"
-              label="End Time"
-              prepend-icon="mdi-clock-time-four-outline"
-              readonly
-            ></v-text-field>
-          </v-col>
         </v-row>
+        <kakaomap></kakaomap>
         <v-text-field
           v-model="data.content"
           class="pt-8"
@@ -90,10 +64,12 @@
 <script>
 import data from "@/data";
 import vregister from "@/components/Register";
+import kakaomap from "@/components/Location";
 export default {
   name: "Detail",
   components: {
-    vregister
+    vregister,
+    kakaomap
   },
   data() {
     const id = this.$route.params.contentId;
