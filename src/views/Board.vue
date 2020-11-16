@@ -4,9 +4,6 @@
     <v-container grid-list-md>
       <v-data-table :headers="headers" :items="data" @click:row="detail">
       </v-data-table>
-      <v-row>
-        <!--<v-btn outlined color="blue" @click="write">스터디 생성</v-btn>-->
-      </v-row>
     </v-container>
   </div>
 </template>
