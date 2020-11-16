@@ -30,7 +30,7 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=9e48203b28fbca3105377d7d0450165d&libraries=services,clusterer,drawing";
+        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=본인APP_KEYd&libraries=services,clusterer,drawing";
       document.head.appendChild(script);
     }
   },
