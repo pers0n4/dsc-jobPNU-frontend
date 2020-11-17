@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <v-select
+    <v-text-field
       prepend-icon="mdi-account-multiple"
-      :items="items"
       label="Number of Members"
-    ></v-select>
+      type="number"
+    ></v-text-field>
   </v-container>
 </template>
 <script>
