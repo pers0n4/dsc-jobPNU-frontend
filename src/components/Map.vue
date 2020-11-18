@@ -26,17 +26,14 @@ export default {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=본인APP_KEYd&libraries=services,clusterer,drawing";
-      document.head.appendChild(script);
+      const script = document.getElementById("kakao");
+      script.onload = () => window.kakao.maps.load(this.initMap);
     }
   },
 
   methods: {
     initMap() {
+      const kakao = window.kakao;
       var markers = [];
       var container = document.getElementById("map");
       var options = {
