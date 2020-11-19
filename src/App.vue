@@ -9,7 +9,6 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-
       <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
         >SIGN IN</v-btn
       >
@@ -52,6 +51,9 @@
           <v-list-item to="/calender">
             <v-list-item-title>Calender</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/calender">
+            <v-list-item-title>Calender</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -87,6 +89,9 @@ export default {
         "GET_TOKEN",
         VueJwtDecode.decode(sessionStorage.token)
       );
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.token}`;
     }
   },
   mounted() {
