@@ -9,7 +9,6 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-      <v-btn @click="temp">temp</v-btn>
       <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
         >SIGN IN</v-btn
       >
@@ -122,24 +121,6 @@ export default {
       if (this.$router.currentRoute.name != "Home") {
         this.$router.push({ name: "Home" });
       }
-    },
-    temp() {
-      this.$axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${sessionStorage.token}`;
-      // let config = {
-      //   headers:{
-      //     Authorization: 'Bearer ' + sessionStorage.token
-      //   }
-      // }
-      this.$axios
-        .post("https://pers0n4.dev:3000/auth/refresh")
-        .then(() => {
-          console.log("aa");
-        })
-        .catch(() => {
-          console.log("BB");
-        });
     }
   }
 };
