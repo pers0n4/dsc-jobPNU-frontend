@@ -9,6 +9,7 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
+
       <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
         >SIGN IN</v-btn
       >
@@ -35,10 +36,9 @@
         >
           <v-list-item :to="this.$store.state.login ? '/mypage' : '/signin'">
             <v-list-item-title>My Page</v-list-item-title>
-<<<<<<< HEAD
           </v-list-item>
           <v-list-item to="/status">
-            <v-list-item-title>Stauts</v-list-item-title>
+            <v-list-item-title>Status</v-list-item-title>
           </v-list-item>
 
           <v-list-item to="/create">
@@ -47,17 +47,8 @@
 
           <v-list-item to="/board">
             <v-list-item-title>Search Study</v-list-item-title>
-=======
           </v-list-item>
 
-          <v-list-item to="/board">
-            <v-list-item-title>Board</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item to="/status">
-            <v-list-item-title>Stauts</v-list-item-title>
->>>>>>> de74fcc... add login
-          </v-list-item>
           <v-list-item to="/calender">
             <v-list-item-title>Calender</v-list-item-title>
           </v-list-item>
@@ -96,12 +87,8 @@ export default {
         "GET_TOKEN",
         VueJwtDecode.decode(sessionStorage.token)
       );
-      this.$axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${sessionStorage.token}`;
     }
   },
-<<<<<<< HEAD
   mounted() {
     if (!(window.kakao && window.kakao.maps)) {
       const script = document.createElement("script");
@@ -112,8 +99,6 @@ export default {
       document.head.appendChild(script);
     }
   },
-=======
->>>>>>> de74fcc... add login
   methods: {
     logOut() {
       this.$store.commit("DEL_TOKEN");
