@@ -38,6 +38,16 @@ const routes = [
     path: "/detail/:contentId",
     name: "Detail",
     component: () => import("@/components/Detail")
+  },
+  {
+    path: "/status",
+    name: "Status",
+    component: () => import("@/views/Status.vue")
+  },
+  {
+    path: "/calender",
+    name: "Calender",
+    component: () => import("@/views/Calender.vue")
   }
 ];
 
