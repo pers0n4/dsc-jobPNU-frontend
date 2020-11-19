@@ -85,6 +85,16 @@ export default {
       );
     }
   },
+  mounted() {
+    if (!(window.kakao && window.kakao.maps)) {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.id = "kakao";
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_KAKAO_APP_KEY}&libraries=services,clusterer,drawing&autoload=false`;
+      document.head.appendChild(script);
+    }
+  },
   methods: {
     logOut() {
       this.$store.commit("DEL_TOKEN");

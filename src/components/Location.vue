@@ -7,16 +7,13 @@ export default {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=본인APP_KEYd&libraries=services,clusterer,drawing";
-      document.head.appendChild(script);
+      const script = document.getElementById("kakao");
+      script.onload = () => window.kakao.maps.load(this.initMap);
     }
   },
   methods: {
     initMap() {
+      const kakao = window.kakao;
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
