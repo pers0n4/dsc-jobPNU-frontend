@@ -51,9 +51,6 @@
           <v-list-item to="/calender">
             <v-list-item-title>Calender</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/calender">
-            <v-list-item-title>Calender</v-list-item-title>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
