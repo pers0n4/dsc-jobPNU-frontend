@@ -9,7 +9,7 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-
+      <v-btn @click="temp">temp</v-btn>
       <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
         >SIGN IN</v-btn
       >
@@ -59,6 +59,9 @@
             <v-list-item-title>Stauts</v-list-item-title>
 >>>>>>> de74fcc... add login
           </v-list-item>
+          <v-list-item to="/calender">
+            <v-list-item-title>Calender</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -94,6 +97,9 @@ export default {
         "GET_TOKEN",
         VueJwtDecode.decode(sessionStorage.token)
       );
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.token}`;
     }
   },
 <<<<<<< HEAD
@@ -116,6 +122,24 @@ export default {
       if (this.$router.currentRoute.name != "Home") {
         this.$router.push({ name: "Home" });
       }
+    },
+    temp() {
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.token}`;
+      // let config = {
+      //   headers:{
+      //     Authorization: 'Bearer ' + sessionStorage.token
+      //   }
+      // }
+      this.$axios
+        .post("https://pers0n4.dev:3000/auth/refresh")
+        .then(() => {
+          console.log("aa");
+        })
+        .catch(() => {
+          console.log("BB");
+        });
     }
   }
 };

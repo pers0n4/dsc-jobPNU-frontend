@@ -16,10 +16,14 @@
           <v-list-item-content>
             <v-list-item-title> Name </v-list-item-title>
             <v-list-item-subtitle>
-              {{ this.$store.state.name }}
+              {{ myname }}
             </v-list-item-subtitle>
           </v-list-item-content>
+          <v-list-item-action>
+            <ChangeName @update-name="updateName"></ChangeName>
+          </v-list-item-action>
         </v-list-item>
+
         <v-list-item>
           <v-list-item-icon>
             <v-icon> mdi-email </v-icon>
@@ -47,23 +51,35 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn @click="signOut">Sing Out</v-btn>
+        <SignOut />
         <v-spacer />
-        <v-btn>OK</v-btn>
+        <ChangePass />
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
 
 <script>
+import ChangeName from "@/components/MyPage/ChangeName";
+import ChangePass from "@/components/MyPage/ChangePass";
+import SignOut from "@/components/MyPage/SignOut";
+
 export default {
   name: "MyPage",
+  components: {
+    ChangeName,
+    ChangePass,
+    SignOut
+  },
   data: () => ({
-    myname: "test",
-    email: "example@pusan.ac.kr",
+    myname: "",
     rating: 4.5,
     imgsrc: "https://randomuser.me/api/portraits/women/85.jpg"
   }),
+  created() {
+    this.myname = this.$store.state.name;
+    this.rating = this.$store.state.rating;
+  },
   methods: {
     signOut() {
       this.$axios
@@ -73,6 +89,9 @@ export default {
           sessionStorage.clear();
           this.$router.push({ name: "Home" });
         });
+    },
+    updateName(name) {
+      this.myname = name;
     }
   }
 };
