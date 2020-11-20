@@ -9,6 +9,7 @@ export default new Vuex.Store({
     id: "",
     email: "",
     name: "",
+    rating: 0,
     token: null
   },
   mutations: {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
       state.id = token.id;
       state.email = token.email;
       state.name = token.name;
+      state.rating = Number(token.rating);
       state.token = token;
     },
     DEL_TOKEN(state) {
@@ -24,6 +26,7 @@ export default new Vuex.Store({
       state.id = "";
       state.email = "";
       state.name = "";
+      state.rating = 0;
       state.token = null;
     }
   },
