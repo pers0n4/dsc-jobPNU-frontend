@@ -1,9 +1,6 @@
 <template>
   <div class="map_wrap">
-    <div
-      id="map"
-      style="width:750px;height:500px;position:relative;overflow:hidden;"
-    ></div>
+    <div id="map" style="width: 750px; height: 500px; position: relative; overflow: hidden"></div>
     <div id="menu_wrap" class="bg_white">
       <div class="option">
         <div>
@@ -29,8 +26,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b5757a81f0a599f1050ac0376ed87b7&libraries=services,clusterer,drawing";
+      script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=4b5757a81f0a599f1050ac0376ed87b7&libraries=services,clusterer,drawing";
       document.head.appendChild(script);
     }
   },
@@ -41,7 +37,7 @@ export default {
       var container = document.getElementById("map");
       var options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3
+        level: 3,
       };
 
       var map = new kakao.maps.Map(container, options);
@@ -102,24 +98,24 @@ export default {
           // 마커와 검색결과 항목에 mouseover 했을때
           // 해당 장소에 인포윈도우에 장소명을 표시합니다
           // mouseout 했을 때는 인포윈도우를 닫습니다
-          (function(marker, title) {
-            kakao.maps.event.addListener(marker, "click", function() {
+          (function (marker, title) {
+            kakao.maps.event.addListener(marker, "click", function () {
               displayInfowindow(marker, title);
-              markers.map(m => m.setVisible(false));
+              markers.map((m) => m.setVisible(false));
               marker.setVisible(true);
             });
-            kakao.maps.event.addListener(marker, "mouseover", function() {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
               displayInfowindow(marker, title);
             });
-            kakao.maps.event.addListener(marker, "mouseout", function() {
+            kakao.maps.event.addListener(marker, "mouseout", function () {
               //infowindow.close();
             });
-            itemEl.onclick = function() {
+            itemEl.onclick = function () {
               displayInfowindow(marker, title);
-              markers.map(m => m.setVisible(false));
+              markers.map((m) => m.setVisible(false));
               marker.setVisible(true);
             };
-            itemEl.onmouseout = function() {
+            itemEl.onmouseout = function () {
               //infowindow.close();
             };
           })(marker, places[i].place_name);
@@ -134,22 +130,9 @@ export default {
       // 검색결과 항목을 Element로 반환하는 함수입니다
       function getListItem(index, places) {
         var el = document.createElement("li"),
-          itemStr =
-            '<span class="markerbg marker_' +
-            (index + 1) +
-            '"></span>' +
-            '<div class="info">' +
-            "   <h5>" +
-            places.place_name +
-            "</h5>";
+          itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' + '<div class="info">' + "   <h5>" + places.place_name + "</h5>";
         if (places.road_address_name) {
-          itemStr +=
-            "    <span>" +
-            places.road_address_name +
-            "</span>" +
-            '   <span class="jibun gray">' +
-            places.address_name +
-            "</span>";
+          itemStr += "    <span>" + places.road_address_name + "</span>" + '   <span class="jibun gray">' + places.address_name + "</span>";
         } else {
           itemStr += "    <span>" + places.address_name + "</span>";
         }
@@ -161,22 +144,17 @@ export default {
       }
       // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
       function addMarker(position, idx) {
-        var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
           imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
           imgOptions = {
             spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
             spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+            offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
           },
-          markerImage = new kakao.maps.MarkerImage(
-            imageSrc,
-            imageSize,
-            imgOptions
-          ),
+          markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
           marker = new kakao.maps.Marker({
             position: position, // 마커의 위치
-            image: markerImage
+            image: markerImage,
           });
         marker.setMap(map); // 지도 위에 마커를 표출합니다
         markers.push(marker); // 배열에 생성된 마커를 추가합니다
@@ -205,8 +183,8 @@ export default {
           if (i === pagination.current) {
             el.className = "on";
           } else {
-            el.onclick = (function(i) {
-              return function() {
+            el.onclick = (function (i) {
+              return function () {
                 pagination.gotoPage(i);
               };
             })(i);
@@ -228,8 +206,8 @@ export default {
           el.removeChild(el.lastChild);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -316,8 +294,7 @@ export default {
 }
 #placesList .info .jibun {
   padding-left: 26px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
-    no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
 }
 #placesList .info .tel {
   color: #009900;
@@ -328,8 +305,7 @@ export default {
   width: 36px;
   height: 37px;
   margin: 10px 0 0 10px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
-    no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
 }
 #placesList .item .marker_1 {
   background-position: 0 -10px;
