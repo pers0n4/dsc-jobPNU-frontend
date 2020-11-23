@@ -63,7 +63,6 @@ export default {
           sessionStorage.token = this.token;
 
           this.decoded = VueJwtDecode.decode(this.token);
-
           this.$store.commit("GET_TOKEN", VueJwtDecode.decode(this.token));
 
           this.$axios.defaults.headers.common[

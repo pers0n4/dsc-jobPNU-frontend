@@ -9,7 +9,6 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-
       <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
         >SIGN IN</v-btn
       >
@@ -38,7 +37,7 @@
             <v-list-item-title>My Page</v-list-item-title>
           </v-list-item>
           <v-list-item to="/status">
-            <v-list-item-title>Stauts</v-list-item-title>
+            <v-list-item-title>Status</v-list-item-title>
           </v-list-item>
 
           <v-list-item to="/create">
@@ -47,6 +46,10 @@
 
           <v-list-item to="/board">
             <v-list-item-title>Search Study</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/calender">
+            <v-list-item-title>Calender</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -83,6 +86,19 @@ export default {
         "GET_TOKEN",
         VueJwtDecode.decode(sessionStorage.token)
       );
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.token}`;
+    }
+  },
+  mounted() {
+    if (!(window.kakao && window.kakao.maps)) {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.id = "kakao";
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_KAKAO_APP_KEY}&libraries=services,clusterer,drawing&autoload=false`;
+      document.head.appendChild(script);
     }
   },
   methods: {
