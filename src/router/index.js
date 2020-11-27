@@ -1,9 +1,6 @@
 import Home from "../views/Home.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Board from "@/components/Board";
-import Create from "@/components/Create";
-// import Detail from "@/components/Detail";
 
 Vue.use(VueRouter);
 
@@ -25,19 +22,29 @@ const routes = [
     component: () => import("../views/MyPage.vue")
   },
   {
-    path: "/",
+    path: "/board",
     name: "Board",
-    component: Board
+    component: () => import("../views/Board.vue")
   },
   {
     path: "/create/:contentId?",
     name: "Create",
-    component: Create
+    component: () => import("../views/Create.vue")
   },
   {
     path: "/detail/:contentId",
     name: "Detail",
-    component: () => import("@/components/Detail")
+    component: () => import("../views/Detail.vue")
+  },
+  {
+    path: "/status",
+    name: "Status",
+    component: () => import("@/views/Status.vue")
+  },
+  {
+    path: "/calender",
+    name: "Calender",
+    component: () => import("@/views/Calender.vue")
   }
 ];
 

@@ -21,7 +21,7 @@
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <v-btn text @click="getData">Get</v-btn>
+      <v-btn text to="/signup">SignUp</v-btn>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="signIn">Submit</v-btn>
       <v-snackbar v-model="snackbar" :color="result">
@@ -63,23 +63,17 @@ export default {
           sessionStorage.token = this.token;
 
           this.decoded = VueJwtDecode.decode(this.token);
-          this.id = this.decoded.id;
-          console.log(this.id);
+          this.$store.commit("GET_TOKEN", VueJwtDecode.decode(this.token));
+
           this.$axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${this.token}`;
+
+          this.$router.push({ name: "Home" });
         })
         .catch(error => {
           this.message = error.response.data;
           this.result = "error";
-          this.snackbar = true;
-        });
-    },
-    getData() {
-      this.$axios
-        .get("https://pers0n4.dev:3000/users/" + this.id)
-        .then(result => {
-          this.message = result.data;
           this.snackbar = true;
         });
     }

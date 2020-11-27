@@ -11,21 +11,24 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
-            label="시작일자"
+            v-model="start_date"
+            label="Start Date"
             prepend-icon="mdi-calendar"
             readonly
             v-bind="attrs"
             v-on="on"
+            @updated="update"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        <v-date-picker
+          v-model="start_date"
+          @input="menu = false"
+        ></v-date-picker>
       </v-menu>
     </v-col>
-    <v-spacer></v-spacer>
     <v-col cols="12" sm="6" md="4">
       <v-menu
-        v-model="menu"
+        v-model="menu2"
         :close-on-content-click="false"
         :nudge-right="40"
         transition="scale-transition"
@@ -34,26 +37,35 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
-            label="종료일자"
+            v-model="end_date"
+            label="End Date"
             prepend-icon="mdi-calendar"
             readonly
             v-bind="attrs"
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        <v-date-picker
+          v-model="end_date"
+          @input="menu2 = false"
+        ></v-date-picker>
       </v-menu>
     </v-col>
-    <v-spacer></v-spacer>
   </v-row>
 </template>
 
 <script>
 export default {
   data: () => ({
-    date: new Date().toISOString().substr(0, 10),
-    menu: false
-  })
+    start_date: new Date().toISOString().substr(0, 10),
+    end_date: new Date().toISOString().substr(0, 10),
+    menu: false,
+    menu2: false
+  }),
+  methods: {
+    update() {
+      this.$emit("set-date", this.start_date, this.end_date);
+    }
+  }
 };
 </script>

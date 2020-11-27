@@ -9,25 +9,12 @@
           <v-icon>mdi-home</v-icon>
         </v-btn>
       </router-link>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item to="signin">
-            <v-list-item-title>Sign in</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="signup">
-            <v-list-item-title>Sign up</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="mypage">
-            <v-list-item-title>My Page</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn v-if="!this.$store.state.login" text color="white" to="/signin"
+        >SIGN IN</v-btn
+      >
+      <v-btn v-if="this.$store.state.login" text color="white" @click="logOut"
+        >LOG OUT</v-btn
+      >
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute bottom temporary>
@@ -44,22 +31,25 @@
       <v-list>
         <v-list-item-group
           v-model="group"
-          active-class="deep-purple--text text--accent-4"
+          active-class="blue--text text--accent-4"
         >
-          <v-list-item to="/signin">
-            <v-list-item-title>Foo</v-list-item-title>
+          <v-list-item :to="this.$store.state.login ? '/mypage' : '/signin'">
+            <v-list-item-title>My Page</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/status">
+            <v-list-item-title>Status</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/mypage">
-            <v-list-item-title>Bar</v-list-item-title>
+          <v-list-item to="/create">
+            <v-list-item-title>Make Study</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
+          <v-list-item to="/board">
+            <v-list-item-title>Search Study</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
+          <v-list-item to="/calender">
+            <v-list-item-title>Calender</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -74,17 +64,51 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "App",
   data: () => ({
     drawer: false,
-    group: null,
+    group: null
   }),
 
   watch: {
     group() {
       this.drawer = false;
-    },
+    }
   },
+  created() {
+    if (sessionStorage.token === undefined) {
+      this.$store.commit("DEL_TOKEN");
+    } else {
+      this.$store.commit(
+        "GET_TOKEN",
+        VueJwtDecode.decode(sessionStorage.token)
+      );
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${sessionStorage.token}`;
+    }
+  },
+  mounted() {
+    if (!(window.kakao && window.kakao.maps)) {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.id = "kakao";
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_KAKAO_APP_KEY}&libraries=services,clusterer,drawing&autoload=false`;
+      document.head.appendChild(script);
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.commit("DEL_TOKEN");
+      sessionStorage.clear();
+      if (this.$router.currentRoute.name != "Home") {
+        this.$router.push({ name: "Home" });
+      }
+    }
+  }
 };
 </script>
