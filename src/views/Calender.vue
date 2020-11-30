@@ -27,6 +27,7 @@
 export default {
   name: "Calender",
   data: () => ({
+    myStudy: null,
     date: new Date().toISOString().substr(0, 10),
     pickerDate: null,
     notes: [],
@@ -49,6 +50,23 @@ export default {
   //   },
   // },
   mounted() {
+    this.$axios.get("/studies").then(res => {
+      let studies = res.data;
+      this.myStudy = studies.filter(e => {
+        console.log(
+          e.members.find(element => {
+            return element === this.$store.state.id;
+          })
+        );
+        return (
+          e.user === this.$store.state.id ||
+          e.members.find(element => {
+            return element === this.$store.state.id;
+          }) != undefined
+        );
+      });
+    });
+
     this.arrayEvents = [...Array(6)].map(() => {
       const day = Math.floor(Math.random() * 30);
       const d = new Date();
