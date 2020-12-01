@@ -17,12 +17,11 @@
             readonly
             v-bind="attrs"
             v-on="on"
-            @updated="update"
           ></v-text-field>
         </template>
         <v-date-picker
           v-model="start_date"
-          @input="menu = false"
+          @input="[update(), (menu = false)]"
         ></v-date-picker>
       </v-menu>
     </v-col>
@@ -47,7 +46,7 @@
         </template>
         <v-date-picker
           v-model="end_date"
-          @input="menu2 = false"
+          @input="[update(), (menu2 = false)]"
         ></v-date-picker>
       </v-menu>
     </v-col>
@@ -57,8 +56,8 @@
 <script>
 export default {
   data: () => ({
-    start_date: new Date().toISOString().substr(0, 10),
-    end_date: new Date().toISOString().substr(0, 10),
+    start_date: "",
+    end_date: "",
     menu: false,
     menu2: false
   }),

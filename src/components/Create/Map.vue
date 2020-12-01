@@ -22,6 +22,10 @@
 </template>
 <script>
 export default {
+  data: () => ({
+    latitude: "",
+    longtitude: ""
+  }),
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -32,7 +36,15 @@ export default {
   },
 
   methods: {
+    update(location) {
+      // TODO emit title
+      this.latitude = location.getLat();
+      this.longtitude = location.getLng();
+      this.$emit("set-location", this.latitude, this.longtitude);
+    },
+
     initMap() {
+      const self = this;
       const kakao = window.kakao;
       var markers = [];
       var container = document.getElementById("map");
@@ -43,13 +55,13 @@ export default {
 
       var map = new kakao.maps.Map(container, options);
 
-      // 장소 검색 객체를 생성합니다
+      // FIXME 장소 검색 객체를 생성합니다
       var ps = new kakao.maps.services.Places();
-      // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+      // NOTE 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
       var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-      // 키워드로 장소를 검색합니다
+      // TODO 키워드로 장소를 검색합니다
       searchPlaces();
-      // 키워드 검색을 요청하는 함수입니다
+      // ANCHOR 키워드 검색을 요청하는 함수입니다
       function searchPlaces() {
         var keyword = document.getElementById("keyword").value;
         if (!keyword.replace(/^\s+|\s+$/g, "")) {
@@ -99,11 +111,14 @@ export default {
           // 마커와 검색결과 항목에 mouseover 했을때
           // 해당 장소에 인포윈도우에 장소명을 표시합니다
           // mouseout 했을 때는 인포윈도우를 닫습니다
+          // NOTE
           (function(marker, title) {
             kakao.maps.event.addListener(marker, "click", function() {
               displayInfowindow(marker, title);
               markers.map(m => m.setVisible(false));
               marker.setVisible(true);
+              // TODO emit title
+              self.update(marker.getPosition());
             });
             kakao.maps.event.addListener(marker, "mouseover", function() {
               displayInfowindow(marker, title);
@@ -115,6 +130,8 @@ export default {
               displayInfowindow(marker, title);
               markers.map(m => m.setVisible(false));
               marker.setVisible(true);
+              // TODO emit title
+              self.update(marker.getPosition());
             };
             itemEl.onmouseout = function() {
               //infowindow.close();
