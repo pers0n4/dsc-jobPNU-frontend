@@ -44,7 +44,10 @@
           </v-list-item>
 
           <v-list-item to="/board">
-            <v-list-item-title>Search Study</v-list-item-title>
+            <v-list-item-title
+              :to="this.$store.state.login ? '/board' : '/signin'"
+              >Search Study</v-list-item-title
+            >
           </v-list-item>
 
           <v-list-item to="/calender">

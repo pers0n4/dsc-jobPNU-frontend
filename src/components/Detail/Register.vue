@@ -20,7 +20,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="[(snackbar = true), (dialog = false)]"
+            @click="[register(), (snackbar = true), (dialog = false)]"
             >Agree</v-btn
           >
         </v-card-actions>
@@ -38,12 +38,26 @@
 </template>
 <script>
 export default {
+  props: ["id"],
   data() {
     return {
       dialog: false,
       snackbar: false,
       text: "applied successfully"
     };
+  },
+
+  methods: {
+    register() {
+      console.log(this.$store.state.id);
+      this.$axios
+        .post("https://pers0n4.dev:3000/studies/" + this.id + "/members", {
+          member: this.$store.state.id
+        })
+        .then(() => {
+          // this.$router.push({ name: "Board" });
+        });
+    }
   }
 };
 </script>

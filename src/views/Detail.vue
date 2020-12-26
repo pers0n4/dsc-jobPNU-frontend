@@ -53,7 +53,7 @@
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <vregister class="pl-4"></vregister>
+      <vregister :id="id" class="pl-4"></vregister>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="updateData">update</v-btn>
       <v-btn text color="primary" @click="deleteData">delete</v-btn>
