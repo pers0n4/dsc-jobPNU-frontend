@@ -70,11 +70,12 @@ export default {
       });
     },
     detail(item) {
-      console.log(item._id);
+      console.log(item.user);
       this.$router.push({
         name: "Detail",
         params: {
-          id: item._id
+          id: item._id,
+          user: item.user
         }
       });
     }
