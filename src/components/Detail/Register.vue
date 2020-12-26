@@ -50,13 +50,12 @@ export default {
   methods: {
     register() {
       console.log(this.$store.state.id);
-      this.$axios
-        .post("https://pers0n4.dev:3000/studies/" + this.id + "/members", {
+      this.$axios.post(
+        "https://pers0n4.dev:3000/studies/" + this.id + "/members",
+        {
           member: this.$store.state.id
-        })
-        .then(() => {
-          // this.$router.push({ name: "Board" });
-        });
+        }
+      );
     }
   }
 };

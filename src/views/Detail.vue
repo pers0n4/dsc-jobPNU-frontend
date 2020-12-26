@@ -88,7 +88,6 @@ export default {
         this.data = result.data;
         this.start_date = this.data.start_date.toString().substr(0, 10);
         this.end_date = this.data.end_date.toString().substr(0, 10);
-        // alert(this.start_date);
       });
   },
   methods: {
@@ -112,6 +111,5 @@ export default {
       });
     }
   }
-  // new Date().toISOString().substr(0, 10)
 };
 </script>
