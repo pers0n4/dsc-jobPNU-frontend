@@ -53,13 +53,9 @@ export default {
     register() {
       this.$axios
         .post("https://pers0n4.dev:3000/studies/" + this.id + "/members", {
-          members: this.$store.state.id
+          member: this.$store.state.id
         })
-        .then(() => {
-          console.log(
-            this.user != this.$store.state.id && this.$store.state.id != ""
-          );
-        });
+        .then(() => {});
     }
   }
 };
