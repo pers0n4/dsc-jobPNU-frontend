@@ -30,7 +30,7 @@ export default {
     users: null
   }),
   created() {
-    this.$axios.get("https://pers0n4.dev:3000/users").then(result => {
+    this.$axios.get("/users").then(result => {
       this.users = result.data;
     });
   }
