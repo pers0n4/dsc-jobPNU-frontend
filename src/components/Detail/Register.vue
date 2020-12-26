@@ -46,7 +46,7 @@ export default {
       dialog: false,
       snackbar: false,
       text: "applied successfully",
-      isShow: this.user != this.$store.state.id
+      isShow: this.user != this.$store.state.id && this.$store.state.id != ""
     };
   },
   methods: {
@@ -56,7 +56,9 @@ export default {
           members: this.$store.state.id
         })
         .then(() => {
-          console.log(this.isShow);
+          console.log(
+            this.user != this.$store.state.id && this.$store.state.id != ""
+          );
         });
     }
   }
