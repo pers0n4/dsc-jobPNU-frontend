@@ -1,26 +1,28 @@
 <template>
-  <v-row>
-    <v-col cols="12" sm="8" class="my-2 px-1">
-      <v-date-picker
-        ref="picker"
-        v-model="date"
-        :events="arrayEvents"
-        event-color="green lighten-1"
-        full-width
-      ></v-date-picker>
-    </v-col>
-    <v-col cols="12" sm="4" class="my-2 px-1">
-      <div class="title">
-        {{ date }} 의 Study
-        <!-- 날짜 넣어야함 Month news ({{ pickerDate || '###change month...' }}) -->
-      </div>
-      <div class="subheading"></div>
+  <v-card class="mt-5">
+    <v-row>
+      <v-col cols="10" sm="6" class="mx-4 my-4 px-1">
+        <v-date-picker
+          ref="picker"
+          v-model="date"
+          :events="arrayEvents"
+          :event-color="date => (date[9] % 2 ? 'red' : 'yellow')"
+          full-width
+        ></v-date-picker>
+      </v-col>
+      <v-col cols="14" sm="4" class="mx-4 my-4 px-1">
+        <div class="title">
+          {{ date }} 의 Study
+          <!-- 날짜 넣어야함 Month news ({{ pickerDate || '###change month...' }}) -->
+        </div>
+        <div class="subheading"></div>
 
-      <ul class="ma-4">
-        <li>{{ showSchedule() }}</li>
-      </ul>
-    </v-col>
-  </v-row>
+        <ul class="ma-4">
+          <li v-for="sche in schedules" :key="sche.index">{{ sche }}</li>
+        </ul>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script>
@@ -31,33 +33,30 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     pickerDate: null,
     notes: [],
-    arrayEvents: null,
-    allNotes: [
-      "President met with prime minister",
-      "New power plant opened",
-      "Rocket launch announced",
-      "Global warming discussion cancelled",
-      "Company changed its location"
-    ]
+    arrayEvents: [],
+    schedules: []
   }),
-  // watch: {
-  //   pickerDate () {
-  //     this.notes = [
-  //       this.allNotes[Math.floor(Math.random() * 5)],
-  //       this.allNotes[Math.floor(Math.random() * 5)],
-  //       this.allNotes[Math.floor(Math.random() * 5)],
-  //     ].filter((value, index, self) => self.indexOf(value) === index)
-  //   },
-  // },
+  watch: {
+    date() {
+      let sche = [];
+
+      console.log(this.myStudy);
+      for (var i = 0; i < this.myStudy.length; i++) {
+        if (this.date == this.myStudy[i].start_date.substr(0, 10))
+          sche.push(this.myStudy[i].title);
+        if (this.date == this.myStudy[i].end_date.substr(0, 10))
+          sche.push(this.myStudy[i].title);
+      }
+      this.schedules = sche;
+    }
+  },
   mounted() {
     this.$axios.get("/studies").then(res => {
       let studies = res.data;
       this.myStudy = studies.filter(e => {
-        console.log(
-          e.members.find(element => {
-            return element === this.$store.state.id;
-          })
-        );
+        e.members.find(element => {
+          return element === this.$store.state.id;
+        });
         return (
           e.user === this.$store.state.id ||
           e.members.find(element => {
@@ -65,19 +64,13 @@ export default {
           }) != undefined
         );
       });
-    });
 
-    this.arrayEvents = [...Array(6)].map(() => {
-      const day = Math.floor(Math.random() * 30);
-      const d = new Date();
-      d.setDate(day);
-      return d.toISOString().substr(0, 10);
+      for (var i = 0; i < this.myStudy.length; i++) {
+        this.arrayEvents.push(this.myStudy[i].start_date.substr(0, 10));
+        this.arrayEvents.push(this.myStudy[i].end_date.substr(0, 10));
+      }
     });
   },
-  methods: {
-    showSchedule() {
-      return "my Schedule";
-    }
-  }
+  methods: {}
 };
 </script>
