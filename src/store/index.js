@@ -30,6 +30,16 @@ export default new Vuex.Store({
       state.token = null;
     }
   },
-  actions: {},
-  modules: {}
+  actions: {
+    // updateProfile({ commit }, token) {
+    //   // console.log(state, token)
+    //   commit("GET_TOKEN", token)
+    // }
+  },
+  modules: {},
+  getters: {
+    // getName: state => {
+    //   return state.name
+    // }
+  }
 });

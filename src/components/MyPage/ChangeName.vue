@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import VueJwtDecode from "vue-jwt-decode";
-
 export default {
   name: "ChangeName",
   data: () => ({
@@ -42,8 +40,7 @@ export default {
   }),
   methods: {
     edit() {
-      console.log(this.myname);
-
+      const jwt = require("jsonwebtoken");
       this.$axios
         .patch("https://pers0n4.dev:3000/users/" + this.$store.state.id, {
           name: this.myname
@@ -53,17 +50,14 @@ export default {
             .post("https://pers0n4.dev:3000/auth/refresh")
             .then(res => {
               sessionStorage.token = res.data.token;
-            });
+              this.$store.commit("GET_TOKEN", jwt.decode(sessionStorage.token));
+              this.$axios.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${sessionStorage.token}`;
 
-          this.$store.commit(
-            "GET_TOKEN",
-            VueJwtDecode.decode(sessionStorage.token)
-          );
-          this.$axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${sessionStorage.token}`;
-          this.$emit("update-name", this.myname);
-          this.dialog = false;
+              this.$emit("update-name", this.myname);
+              this.dialog = false;
+            });
         });
     }
   }

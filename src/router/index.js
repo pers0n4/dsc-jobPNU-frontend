@@ -27,12 +27,12 @@ const routes = [
     component: () => import("../views/Board.vue")
   },
   {
-    path: "/create/:contentId?",
+    path: "/create/:id?",
     name: "Create",
     component: () => import("../views/Create.vue")
   },
   {
-    path: "/detail/:contentId",
+    path: "/detail/:id",
     name: "Detail",
     component: () => import("../views/Detail.vue")
   },

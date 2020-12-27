@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import VueJwtDecode from "vue-jwt-decode";
-
 export default {
   name: "SignIn",
   data: () => ({
@@ -49,6 +47,7 @@ export default {
   }),
   methods: {
     signIn() {
+      const jwt = require("jsonwebtoken");
       this.$axios
         .post("https://pers0n4.dev:3000/auth", {
           email: this.email,
@@ -62,8 +61,9 @@ export default {
 
           sessionStorage.token = this.token;
 
-          this.decoded = VueJwtDecode.decode(this.token);
-          this.$store.commit("GET_TOKEN", VueJwtDecode.decode(this.token));
+          this.decoded = jwt.decode(sessionStorage.token);
+
+          this.$store.commit("GET_TOKEN", this.decoded);
 
           this.$axios.defaults.headers.common[
             "Authorization"
