@@ -43,17 +43,21 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <kakaomap :location="data.location.coordinates"></kakaomap>
-        <v-text-field
+        <kakaomap
+          :location="data.location.coordinates"
+          :place="data.location.title"
+        ></kakaomap>
+        <v-textarea
           v-model="data.content"
           class="pt-8"
           label="Content"
           readonly
-        ></v-text-field>
+          multi-line
+        ></v-textarea>
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <vregister :id="id" :user="user" class="pl-4"></vregister>
+      <vregister :id="id" :user="data.user" class="pl-4"></vregister>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="updateData">update</v-btn>
       <v-btn text color="primary" @click="deleteData">delete</v-btn>
@@ -73,12 +77,9 @@ export default {
 
   data() {
     const id = this.$route.params.id;
-    const user = this.$route.params.user;
-
     return {
       data: [],
       id: id,
-      user: user,
       start_date: "",
       end_date: ""
     };
@@ -88,6 +89,7 @@ export default {
       .get("https://pers0n4.dev:3000/studies/" + this.id)
       .then(result => {
         this.data = result.data;
+        this.data.content.replace(/(?:\r\n|\r|\n)/g, "<br />");
         this.start_date = this.data.start_date.toString().substr(0, 10);
         this.end_date = this.data.end_date.toString().substr(0, 10);
       });
