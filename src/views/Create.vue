@@ -14,6 +14,8 @@
                 prepend-icon="mdi-account-multiple"
                 label="Number of Members"
                 type="number"
+                placeholder="Only positive integers can be entered"
+                :rules="rules"
               ></v-text-field>
             </v-container>
           </v-col>
@@ -31,6 +33,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" @click="write">{{ "CREATE" }}</v-btn>
+        <v-snackbar v-model="snackbar" color="error">
+          {{ text }}
+          <template v-slot:action="{ attrs }">
+            <v-btn text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
+          </template>
+        </v-snackbar>
         <!-- <v-btn color="primary" @click="index !== undefined ? update() : write()">{{ index !== undefined ? "UPDATE" : "CREATE" }}</v-btn>-->
       </v-card-actions>
     </v-card>
@@ -59,14 +67,13 @@ export default {
       end_date: "",
       location: [],
       field: "",
-      place: ""
-      // data: data,
-      // index: index,
-      // user: index !== undefined ? data[index].user : "",
-      // title: index !== undefined ? data[index].title : "",
-      // content: index !== undefined ? data[index].content : "",
-      // start_date: index !== undefined ? data[index].start_date : "",
-      // end_date: index !== undefined ? data[index].end_date : "",
+      place: "",
+      snackbar: false,
+      text: "Please make sure you have completed all the fields correctly.",
+      rules: [
+        v => !!v || "Please enter a number.",
+        v => (v && v > 0) || "Number of members should be greater than 0."
+      ]
     };
   },
   created() {
@@ -74,32 +81,40 @@ export default {
   },
   methods: {
     write() {
-      this.$axios
-        .post("https://pers0n4.dev:3000/studies", {
-          user: this.user,
-          title: this.title,
-          field: this.field,
-          location: {
-            type: "Point",
-            coordinates: this.location,
-            title: this.place
-          },
-          num: this.num,
-          content: this.content,
-          start_date: this.start_date,
-          end_date: this.end_date
-        })
-        .then(() => {
-          this.$router.push({ name: "Board" });
-        });
+      if (
+        this.title &&
+        this.field &&
+        this.content &&
+        !isNaN(this.num) &&
+        this.num > 0 &&
+        this.location &&
+        this.start_date &&
+        this.end_date
+      ) {
+        this.$axios
+          .post("https://pers0n4.dev:3000/studies", {
+            user: this.user,
+            title: this.title,
+            field: this.field,
+            location: {
+              type: "Point",
+              coordinates: this.location,
+              title: this.place
+            },
+            num: this.num,
+            content: this.content,
+            start_date: this.start_date,
+            end_date: this.end_date
+          })
+          .then(() => {
+            this.$router.push({ name: "Board" });
+          });
+      } else {
+        this.snackbar = true;
+      }
     },
 
     update() {
-      // user = this.user;
-      // title = this.title;
-      // content = this.content;
-      // data[this.index].start_date = this.start_date;
-      // data[this.index].end_date = this.end_date;
       this.$router.push({
         path: "/board"
       });
@@ -114,7 +129,6 @@ export default {
     setLocate(lat, lng, place) {
       this.location = [lat, lng];
       this.place = place;
-      console.log(this.place);
     }
   }
 };
