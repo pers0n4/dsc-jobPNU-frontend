@@ -4,6 +4,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
+      <!-- <Evaluate/> -->
       <router-link to="/">
         <v-btn icon>
           <v-icon>mdi-home</v-icon>
@@ -21,10 +22,11 @@
       <v-list nav dense>
         <v-list-item class="px-2 justify-center">
           <v-list-item-avatar size="100">
-            <v-img
-              src="https://randomuser.me/api/portraits/women/85.jpg"
-            ></v-img>
+            <v-img src="https://i.ibb.co/ggZNT02/default-profile.png"></v-img>
           </v-list-item-avatar>
+        </v-list-item>
+        <v-list-item class="pr-6 justify-center">
+          {{ name }}
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
@@ -66,14 +68,24 @@
 </template>
 
 <script>
-import VueJwtDecode from "vue-jwt-decode";
+// import Evaluate from "@/components/Evaluate"
 
 export default {
   name: "App",
+
+  components: {
+    // Evaluate
+  },
   data: () => ({
     drawer: false,
-    group: null
+    group: null,
+    name: ""
   }),
+  computed: {
+    newname() {
+      return this.$store.state.name;
+    }
+  },
 
   watch: {
     group() {
@@ -84,13 +96,12 @@ export default {
     if (sessionStorage.token === undefined) {
       this.$store.commit("DEL_TOKEN");
     } else {
-      this.$store.commit(
-        "GET_TOKEN",
-        VueJwtDecode.decode(sessionStorage.token)
-      );
+      const jwt = require("jsonwebtoken");
+      this.$store.commit("GET_TOKEN", jwt.decode(sessionStorage.token));
       this.$axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${sessionStorage.token}`;
+      this.name = this.$store.state.name;
     }
   },
   mounted() {
@@ -102,6 +113,9 @@ export default {
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_KAKAO_APP_KEY}&libraries=services,clusterer,drawing&autoload=false`;
       document.head.appendChild(script);
     }
+  },
+  updated() {
+    this.name = this.$store.state.name;
   },
   methods: {
     logOut() {
