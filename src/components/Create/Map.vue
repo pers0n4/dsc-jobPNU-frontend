@@ -24,7 +24,8 @@
 export default {
   data: () => ({
     latitude: "",
-    longtitude: ""
+    longtitude: "",
+    place: ""
   }),
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -36,11 +37,12 @@ export default {
   },
 
   methods: {
-    update(location) {
+    update(location, title) {
       // TODO emit title
       this.latitude = location.getLat();
       this.longtitude = location.getLng();
-      this.$emit("set-location", this.latitude, this.longtitude);
+      this.place = title;
+      this.$emit("set-location", this.latitude, this.longtitude, this.place);
     },
 
     initMap() {
@@ -118,7 +120,7 @@ export default {
               markers.map(m => m.setVisible(false));
               marker.setVisible(true);
               // TODO emit title
-              self.update(marker.getPosition());
+              self.update(marker.getPosition(), title);
             });
             kakao.maps.event.addListener(marker, "mouseover", function() {
               displayInfowindow(marker, title);
@@ -131,7 +133,7 @@ export default {
               markers.map(m => m.setVisible(false));
               marker.setVisible(true);
               // TODO emit title
-              self.update(marker.getPosition());
+              self.update(marker.getPosition(), title);
             };
             itemEl.onmouseout = function() {
               //infowindow.close();

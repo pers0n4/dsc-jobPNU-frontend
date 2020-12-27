@@ -20,7 +20,13 @@
         </v-row>
         <vdatepicker @set-date="setDate"></vdatepicker>
         <kakaomap @set-location="setLocate"></kakaomap>
-        <v-textarea v-model="content" label="Content"></v-textarea>
+        <v-textarea
+          v-model="content"
+          label="Content"
+          auto-grow
+          clearable
+          clear-icon="mdi-close-circle"
+        ></v-textarea>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -52,7 +58,8 @@ export default {
       start_date: "",
       end_date: "",
       location: [],
-      field: ""
+      field: "",
+      place: ""
       // data: data,
       // index: index,
       // user: index !== undefined ? data[index].user : "",
@@ -74,7 +81,8 @@ export default {
           field: this.field,
           location: {
             type: "Point",
-            coordinates: this.location
+            coordinates: this.location,
+            title: this.place
           },
           num: this.num,
           content: this.content,
@@ -103,9 +111,10 @@ export default {
     setType(field) {
       this.field = field;
     },
-    setLocate(lat, lng) {
+    setLocate(lat, lng, place) {
       this.location = [lat, lng];
-      console.log(this.location);
+      this.place = place;
+      console.log(this.place);
     }
   }
 };
