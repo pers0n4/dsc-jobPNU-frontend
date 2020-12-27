@@ -17,9 +17,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <template v-else>
-      Empty users
-    </template>
+    <template v-else> Empty users </template>
   </v-container>
 </template>
 

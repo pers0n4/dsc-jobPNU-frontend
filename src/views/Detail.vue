@@ -10,7 +10,7 @@
         <v-row>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              v-model="data.grouptype"
+              v-model="data.field"
               label="Type of Study"
               prepend-icon="mdi-lead-pencil"
               readonly
@@ -28,7 +28,7 @@
         <v-row class="pt-3">
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              v-model="data.start_date"
+              v-model="start_date"
               label="Start Date"
               prepend-icon="mdi-calendar"
               readonly
@@ -36,14 +36,14 @@
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              v-model="data.end_date"
+              v-model="end_date"
               label="End Date"
               prepend-icon="mdi-calendar"
               readonly
             ></v-text-field>
           </v-col>
         </v-row>
-        <kakaomap></kakaomap>
+        <kakaomap :location="data.location.coordinates"></kakaomap>
         <v-text-field
           v-model="data.content"
           class="pt-8"
@@ -53,7 +53,7 @@
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <vregister class="pl-4"></vregister>
+      <vregister :id="id" :user="user" class="pl-4"></vregister>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="updateData">update</v-btn>
       <v-btn text color="primary" @click="deleteData">delete</v-btn>
@@ -62,39 +62,48 @@
   </v-card>
 </template>
 <script>
-import data from "@/data";
-import vregister from "@/components/Register";
-import kakaomap from "@/components/Location";
+import vregister from "@/components/Detail/Register";
+import kakaomap from "@/components/Detail/Location";
 export default {
   name: "Detail",
   components: {
     vregister,
     kakaomap
   },
-  data() {
-    const id = this.$route.params.contentId;
 
-    const index = data.findIndex(data => {
-      return data.id == id;
-    });
+  data() {
+    const id = this.$route.params.id;
+    const user = this.$route.params.user;
 
     return {
-      data: data[index],
-      contentId: id
+      data: [],
+      id: id,
+      user: user,
+      start_date: "",
+      end_date: ""
     };
+  },
+  created() {
+    this.$axios
+      .get("https://pers0n4.dev:3000/studies/" + this.id)
+      .then(result => {
+        this.data = result.data;
+        this.start_date = this.data.start_date.toString().substr(0, 10);
+        this.end_date = this.data.end_date.toString().substr(0, 10);
+      });
   },
   methods: {
     deleteData() {
-      data.splice(this.index, 1);
-      this.$router.push({
-        path: "/board"
-      });
+      // data.splice(this.index, 1);
+      // this.$router.push({
+      //   path: "/board",
+      // });
     },
     updateData() {
       this.$router.push({
         name: "Create",
         params: {
-          contentId: this.id
+          id: this.id
         }
       });
     },

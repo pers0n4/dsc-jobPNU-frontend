@@ -2,7 +2,9 @@
   <v-row>
     <v-dialog v-model="dialog" persistent max-width="320">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">Register</v-btn>
+        <v-btn v-if="isShow" color="primary" dark v-bind="attrs" v-on="on">
+          Register</v-btn
+        >
       </template>
       <v-card>
         <v-card-title class="headline"
@@ -20,7 +22,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="[(snackbar = true), (dialog = false)]"
+            @click="[register(), (snackbar = true), (dialog = false)]"
             >Agree</v-btn
           >
         </v-card-actions>
@@ -38,12 +40,23 @@
 </template>
 <script>
 export default {
+  props: ["id", "user"],
   data() {
     return {
       dialog: false,
       snackbar: false,
-      text: "applied successfully"
+      text: "applied successfully",
+      isShow: this.user != this.$store.state.id && this.$store.state.id != ""
     };
+  },
+  methods: {
+    register() {
+      this.$axios
+        .post("https://pers0n4.dev:3000/studies/" + this.id + "/members", {
+          member: this.$store.state.id
+        })
+        .then(() => {});
+    }
   }
 };
 </script>

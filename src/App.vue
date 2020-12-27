@@ -41,13 +41,15 @@
           <v-list-item to="/status">
             <v-list-item-title>Status</v-list-item-title>
           </v-list-item>
-
-          <v-list-item to="/create">
+          <v-list-item :to="this.$store.state.login ? '/create' : '/signin'">
             <v-list-item-title>Make Study</v-list-item-title>
           </v-list-item>
 
           <v-list-item to="/board">
-            <v-list-item-title>Search Study</v-list-item-title>
+            <v-list-item-title
+              :to="this.$store.state.login ? '/board' : '/signin'"
+              >Search Study</v-list-item-title
+            >
           </v-list-item>
 
           <v-list-item to="/calender">
