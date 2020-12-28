@@ -89,7 +89,6 @@ export default {
       .get("https://pers0n4.dev:3000/studies/" + this.id)
       .then(result => {
         this.data = result.data;
-        this.data.content.replace(/(?:\r\n|\r|\n)/g, "<br />");
         this.start_date = this.data.start_date.toString().substr(0, 10);
         this.end_date = this.data.end_date.toString().substr(0, 10);
       });
