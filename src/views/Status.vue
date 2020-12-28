@@ -161,13 +161,12 @@ export default {
   },
   mounted() {
     this.$axios.get("/studies").then(res => {
+      console.log(res);
       let studies = res.data;
       this.items = studies.filter(e => {
-        console.log(
-          e.members.find(element => {
-            return element === this.$store.state.id;
-          })
-        );
+        e.members.find(element => {
+          return element === this.$store.state.id;
+        });
         return (
           e.user === this.$store.state.id ||
           e.members.find(element => {
